@@ -1,0 +1,33 @@
+{% extends 'parser/base.html' %}
+{% load bootstrap4 %}
+{% bootstrap_css %}
+<!--{% bootstrap_javascript jquery='full' %}-->
+{% block content %}
+    <form enctype="multipart/form-data" method="post">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        {{ form.media }}
+        {% for field in form %}
+        <div class="fieldWrapper">
+            {{ field.errors }}
+            {{ field.label_tag }} {{ field }}
+            {% if field.help_text %}
+                <p class="help">{{ field.help_test|safe }}</p>
+            {% endif %}
+        </div>
+         {% endfor %}
+        <input type="submit" value="Анализ времени пребывания" style="margin-top: 10px;">
+    </form>
+    <div style="margin-top: 50px;">
+    {{df|safe}}
+    </div>
+    {% if total_timing %}
+        <div style="margin-top: 40px">Общее время всех людей за период: {{ total_timing }}</div>
+    {% endif %}
+
+<script>
+      $(function () {
+        $("#datetimepicker1").datetimepicker();
+      });
+</script>
+{% endblock%}
